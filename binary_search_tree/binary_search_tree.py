@@ -17,27 +17,79 @@ class BSTNode:
 
     # Insert the given value into the tree
     def insert(self, value):
-        pass
+        if self.value:
+            if value < self.value: # Left
+                if self.left is None:
+                    self.left = BSTNode(value);
+                else:
+                    self.left.insert(value);
+            elif value >= self.value: # Right
+                if self.right is None:
+                    self.right = BSTNode(value);
+                else:
+                    self.right.insert(value);
+        else:
+            self.value = value;
 
     # Return True if the tree contains the value
     # False if it does not
     def contains(self, target):
-        pass
+        if target < self.value: # Left
+            if self.left is None:
+                return False;
+            return self.left.contains(target);
+        elif target > self.value: # Right
+            if self.right is None:
+                return False;
+            return self.right.contains(target);
+        else:
+            return True;
 
     # Return the maximum value found in the tree
     def get_max(self):
-        pass
+        if self.left is None and self.right is None:
+            return self.value;
+        elif self.right is None:
+            val = self.left.get_max();
+            if val > self.value:
+                return val;
+            else:
+                return self.value;
+        else:
+            val = self.right.get_max();
+            if val > self.value:
+                return val;
+            else:
+                return self.value;
 
     # Call the function `fn` on the value of each node
     def for_each(self, fn):
-        pass
+
+        fn(self.value);
+
+        if self.right is not None:
+            self.right.for_each(fn);
+
+        if self.left is not None:
+            self.left.for_each(fn);
 
     # Part 2 -----------------------
 
     # Print all the values in order from low to high
     # Hint:  Use a recursive, depth first traversal
     def in_order_print(self, node):
-        pass
+        data = [];
+        aaa = '';
+        if node:
+            aaa = self.in_order_print(node.left);
+            print(str(node.value));
+            aaa = aaa + str(node.value) + '\n';
+            aaa = aaa + self.in_order_print(node.right);
+            # data = self.in_order_print(node.left);
+            # data.append(node.value);
+            # data = data + self.in_order_print(node.right);
+        print(aaa);
+        return aaa;
 
     # Print the value of every node, starting with the given node,
     # in an iterative breadth first traversal
