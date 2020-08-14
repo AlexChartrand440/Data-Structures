@@ -9,6 +9,12 @@ This part of the project comprises two days:
 2. Implement the `in_order_print`, `bft_print`, and `dft_print` methods
    on the BSTNode class.
 """
+
+# import sys;
+# sys.path.append('../stack');
+
+# from stack import Stack;
+
 class BSTNode:
     def __init__(self, value):
         self.value = value
@@ -47,20 +53,29 @@ class BSTNode:
 
     # Return the maximum value found in the tree
     def get_max(self):
-        if self.left is None and self.right is None:
-            return self.value;
-        elif self.right is None:
-            val = self.left.get_max();
-            if val > self.value:
-                return val;
-            else:
-                return self.value;
+        if self.right is not None:
+            return self.right.get_max();
         else:
-            val = self.right.get_max();
-            if val > self.value:
-                return val;
-            else:
-                return self.value;
+            return self.value;
+        #     val = self.right.get_max();
+        #     if val > self.value:
+        #         return val;
+        #     else:
+        #         return self.value;
+        # if self.left is None and self.right is None:
+        #     return self.value;
+        # elif self.right is None:
+        #     val = self.left.get_max();
+        #     if val > self.value:
+        #         return val;
+        #     else:
+        #         return self.value;
+        # else:
+        #     val = self.right.get_max();
+        #     if val > self.value:
+        #         return val;
+        #     else:
+        #         return self.value;
 
     # Call the function `fn` on the value of each node
     def for_each(self, fn):
@@ -83,23 +98,51 @@ class BSTNode:
         if node:
             aaa = self.in_order_print(node.left);
             print(str(node.value));
-            aaa = aaa + str(node.value) + '\n';
+            aaa = aaa + str(node.value);
             aaa = aaa + self.in_order_print(node.right);
             # data = self.in_order_print(node.left);
             # data.append(node.value);
             # data = data + self.in_order_print(node.right);
-        print(aaa);
+        # print(aaa);
         return aaa;
 
     # Print the value of every node, starting with the given node,
     # in an iterative breadth first traversal
     def bft_print(self, node):
-        pass
+        
+        from collections import deque;
+
+        queue = deque();
+        queue.append(node);
+
+        while len(queue) > 0:
+
+            current = queue.popleft();
+
+            if current.left is not None:
+                queue.append(current.left);
+            
+            if current.right is not None:
+                queue.append(current.right);
+
+            print(current.value);
 
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal
     def dft_print(self, node):
-        pass
+        stack = [];
+        stack.append(node);
+
+        while len(stack) > 0:
+            current = stack.pop();
+
+            if current.right:
+                stack.append(current.right);
+            
+            if current.left:
+                stack.append(current.left);
+
+            print(current.value);
 
     # Stretch Goals -------------------------
     # Note: Research may be required
